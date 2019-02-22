@@ -3,6 +3,3 @@ jobs:
   build:
     docker:
       - image: "circleci/node:9.6.1"
-    steps:
-      - sayhello:
-          to: "Lev"
