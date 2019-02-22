@@ -1,5 +1,5 @@
 version: 2
-orbs:
+jobs:
     hello: circleci/hello-build@0.0.5
 workflows:
     "Hello Workflow":
