@@ -1,17 +1,25 @@
-version: 2
-dependencies:
-  pre:
-    - wget https://dl.bintray.com/mitchellh/terraform/terraform_0.6.3_linux_amd64.zip
-    - unzip terraform_0.6.3_linux_amd64.zip
+jobs:
+  shellcheck:
+    docker:
+      - image: koalaman/shellcheck-alpine:stable
+    steps:
+      - checkout
+      - run:
+          name: Check Scripts
+          command: |
+            find . -type f -name '*.sh' | wc -l
+            find . -type f -name '*.sh' | xargs shellcheck --external-sources
+  build-job:
+    ...
 
-test:
-  override:
-    - ./terraform remote config -backend=S3 -backend-config="bucket=$BUCKET" -backend-config="key=terraform.tfstate" -backend-config="region=eu-west-1"
-    - ./terraform plan -out=terraform.plan
-
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - ./terraform apply terraform.plan
-#       - ./terraform remote push
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - shellcheck
+      - build-job:
+          requires:
+            - shellcheck
+          filters:
+            branches:
+              only: master
