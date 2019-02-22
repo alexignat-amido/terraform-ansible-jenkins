@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
   bucket = "ima-terraform-state"
-  key    = "terraform-state/terraform-statefile"
+  key    = "terraform-state/infrastructure/terraform-statefile"
   region = "eu-west-1"
   }
 }
