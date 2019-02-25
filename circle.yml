@@ -145,19 +145,18 @@ workflows:
       - plan:
           requires:
             - build
-      - approve:
-          type: approval
-          requires:
-            - build
-            - plan
-          filters:
-            branches:
-              only: master
+      # - approve:
+      #     type: approval
+      #     requires:
+      #       - build
+      #       - plan
+      #     filters:
+      #       branches:
+      #         only: master
       - apply-with-approval:
           requires:
-            - build
+            # - approve
             - plan
-            - approve
           filters:
             branches:
               only: master
@@ -167,16 +166,17 @@ workflows:
       - plan_infrastructure:
           requires:
             - build_infrastructure
-      - approve_infrastructure:
-          type: approval
-          requires:
-            - plan_infrastructure
-          filters:
-            branches:
-              only: master
+      # - approve_infrastructure:
+      #     type: approval
+      #     requires:
+      #       - plan_infrastructure
+      #     filters:
+      #       branches:
+      #         only: master
       - apply-with-approval_infrastructure:
           requires:
-            - approve_infrastructure
+            # - approve_infrastructure
+              - plan_infrastructure
           filters:
             branches:
               only: master
