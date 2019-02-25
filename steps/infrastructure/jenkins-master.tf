@@ -7,7 +7,7 @@ resource "aws_instance" "jenkins-master" {
     vpc_security_group_ids = ["${aws_security_group.default.id}"]
     key_name = "jenkins-key"
     associate_public_ip_address = true
-    source_dest_check           = false
+    source_dest_check           = true
     depends_on = ["aws_internet_gateway.default"]
     tags = {
         Name = "jenkins-master"
