@@ -109,8 +109,8 @@ jobs:
           paths:
             - terraform.plan
 
-  # apply:
-  #   <<: *apply_job
+  apply:
+    <<: *apply_job
   # apply-with-approval:
   #   <<: *apply_job
 
