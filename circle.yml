@@ -160,9 +160,7 @@ workflows:
           filters:
             branches:
               only: master
-      - build_infrastructure:
-          requires:
-            - build
+      - build_infrastructure
       - plan_infrastructure:
           requires:
             - build_infrastructure
