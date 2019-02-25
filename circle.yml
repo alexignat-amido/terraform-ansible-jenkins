@@ -158,6 +158,7 @@ workflows:
             branches:
               only: master
   build_plan_approve_apply_infrastructure:
+    jobs:
       - build_infrastructure
       - plan_infrastructure:
           requires:
