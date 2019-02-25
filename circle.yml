@@ -158,10 +158,10 @@ workflows:
             branches:
               only: master
   build_plan_approve_apply_infrastructure:
-    triggers:
-      - build_plan_approve_apply
     jobs:
-      - build_infrastructure
+      - build_infrastructure:
+          requires:
+            - build_plan_approve_apply
       - plan_infrastructure:
           requires:
             - build_infrastructure
