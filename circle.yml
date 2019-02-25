@@ -147,12 +147,15 @@ workflows:
       - approve:
           type: approval
           requires:
+            - build
             - plan
           filters:
             branches:
               only: master
       - apply-with-approval:
           requires:
+            - build
+            - plan
             - approve
           filters:
             branches:
