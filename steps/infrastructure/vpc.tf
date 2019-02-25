@@ -21,6 +21,11 @@ resource "aws_subnet" "public-subnet" {
         Name = "jenkins-master"
     }
 }
+resource "aws_route" "default" {
+  route_table_id            = "${aws_vpc.jenkins-master.main_route_table_id}"
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id                = "${aws_internet_gateway.default.id}"
+}
 
 resource "aws_security_group" "default" {
     name = "jenkins-master-sg" 
