@@ -31,10 +31,17 @@ save_repo: &save_repo
 
 set_repo_folder_init: &set_repo_folder_init
   run:
-    name: set repo folder
+    name: set repo folder init
     command: |
       cd && touch $BASH_ENV
       echo 'export TERRAFORM_ENVIRONMENT=init' >> $BASH_ENV
+
+set_repo_folder_infrastructure: &set_repo_folder_infrastructure
+  run:
+    name: set repo folder infrastructure
+    command: |
+      cd && touch $BASH_ENV
+      echo 'export TERRAFORM_ENVIRONMENT=infrastructure' >> $BASH_ENV
       
 terraform_init: &terraform_init
   run:
@@ -95,6 +102,40 @@ jobs:
   apply-with-approval:
     <<: *apply_job
 
+  build_infrastructure:
+    <<: *default_config
+    steps:
+      - checkout
+      - *set_repo_folder_infrastructure
+      - run:
+          name: terraform fmt
+          command: |
+            source $BASH_ENV
+            cd environments/$TERRAFORM_ENVIRONMENT
+      - *save_repo
+
+  plan_infrastructure:
+    <<: *default_config
+    steps:
+      - *restore_repo
+      - *set_repo_folder_infrastructure
+      - *terraform_init
+      - run:
+          name: terraform plan
+          command: |
+            source $BASH_ENV
+            cd environments/$TERRAFORM_ENVIRONMENT
+            terraform plan -out=../../terraform.plan
+      - persist_to_workspace:
+          root: *working_directory
+          paths:
+            - terraform.plan
+
+  apply_infrastructure:
+    <<: *apply_job
+  apply-with-approval_infrastructure:
+    <<: *apply_job
+
 workflows:
   version: 2
   build_plan_approve_apply:
@@ -113,6 +154,24 @@ workflows:
       - apply-with-approval:
           requires:
             - approve
+          filters:
+            branches:
+              only: master
+  build_plan_approve_apply_infrastructure:
+      - build_infrastructure
+      - plan_infrastructure:
+          requires:
+            - build_infrastructure
+      - approve_infrastructure:
+          type: approval
+          requires:
+            - plan_infrastructure
+          filters:
+            branches:
+              only: master
+      - apply-with-approval_infrastructure:
+          requires:
+            - approve_infrastructure
           filters:
             branches:
               only: master
