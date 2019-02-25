@@ -157,11 +157,9 @@ workflows:
           filters:
             branches:
               only: master
-  build_plan_approve_apply_infrastructure:
-    jobs:
       - build_infrastructure:
           requires:
-            - build_plan_approve_apply
+            - apply-with-approval
       - plan_infrastructure:
           requires:
             - build_infrastructure
