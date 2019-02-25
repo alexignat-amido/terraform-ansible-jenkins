@@ -34,7 +34,7 @@ set_repo_folder_init: &set_repo_folder_init
     name: set repo folder
     command: |
       cd && touch $BASH_ENV
-        echo 'export TERRAFORM_ENVIRONMENT=init' >> $BASH_ENV
+      echo 'export TERRAFORM_ENVIRONMENT=init' >> $BASH_ENV
       
 terraform_init: &terraform_init
   run:
