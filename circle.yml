@@ -169,6 +169,7 @@ jobs:
             apt-add-repository ppa:ansible/ansible -y
             apt-get update -y
             apt-get install ansible -y
+            ansible --version 
 
       - *save_repo
   
