@@ -2,16 +2,20 @@ version: 2
 
 references:
 
+# Using 2 base images for terraform / ansible
+
 base_image: &base_image
   hashicorp/terraform:light
 
 base_image_ans: &base_image_ans
   vitalyu/az-ansible
 
-ansible_image: &ansible_image
+# Define the working directory from inside the container
 
 working_directory: &working_directory
   ~/example
+
+# Default configuration for both environments
 
 default_config_ans: &default_config_ans
   docker:
@@ -27,10 +31,10 @@ default_config: &default_config
   environment:
     BASH_ENV: /root/.bashrc
 
+# Step to restore repository from cache 
+
 repo_cache_key: &repo_cache_key
   v1-repo-{{ .Branch }}-{{ .Revision }}
-
-# Step to restore repository from cache
 
 restore_repo: &restore_repo
   restore_cache:
@@ -41,6 +45,8 @@ save_repo: &save_repo
     key: *repo_cache_key
     paths:
       - *working_directory
+
+# Setup the folder for deployments
 
 set_repo_folder_init: &set_repo_folder_init
   run:
@@ -63,6 +69,8 @@ set_repo_folder_configuration: &set_repo_folder_configuration
       cd && touch $BASH_ENV
       echo 'export TERRAFORM_ENVIRONMENT=configuration' >> $BASH_ENV
       pwd
+
+# Terraform initialization cmd module
       
 terraform_init: &terraform_init
   run:
@@ -71,6 +79,8 @@ terraform_init: &terraform_init
       source $BASH_ENV
       cd steps/$TERRAFORM_ENVIRONMENT
       terraform init
+
+# Apply terraform from specific plan module
 
 apply_job: &apply_job
   <<: *default_config
@@ -166,13 +176,6 @@ jobs:
           command: |
             source $BASH_ENV
             cd steps/configuration
-            ls -l
-            pwd
-            # apt-get update -y
-            # sudo apt-get install software-properties-common -y
-            # apt-add-repository ppa:ansible/ansible -y
-            # apt-get update -y
-            # apt-get install ansible -y
             ansible --version
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i hosts.ini main.yml 
@@ -188,28 +191,28 @@ workflows:
   version: 2
   build_plan_approve_apply:
     jobs:
-      # - build
-      # - plan:
-      #     requires:
-      #       - build
-      # - apply-with-approval:
-      #     requires:
-      #       - plan
-      #     filters:
-      #       branches:
-      #         only: master
-      # - build_infrastructure:
-      #     requires:
-      #       - apply-with-approval
-      # - plan_infrastructure:
-      #     requires:
-      #       - build_infrastructure
-      # - apply-with-approval_infrastructure:
-      #     requires:
-      #         - plan_infrastructure
-      #     filters:
-      #       branches:
-      #         only: master
+      - build
+      - plan:
+          requires:
+            - build
+      - apply-with-approval:
+          requires:
+            - plan
+          filters:
+            branches:
+              only: master
+      - build_infrastructure:
+          requires:
+            - apply-with-approval
+      - plan_infrastructure:
+          requires:
+            - build_infrastructure
+      - apply-with-approval_infrastructure:
+          requires:
+              - plan_infrastructure
+          filters:
+            branches:
+              only: master
       - build_configuration:
           requires:
-            # - apply-with-approval_infrastructure
+            - apply-with-approval_infrastructure
