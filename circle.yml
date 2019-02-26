@@ -157,7 +157,7 @@ jobs:
       - *restore_repo
       - *set_repo_folder_configuration
       - run:
-          command: ansible-playbook main.yml 
+          command: pwd 
       
 
 
