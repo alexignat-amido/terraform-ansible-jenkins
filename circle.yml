@@ -5,8 +5,20 @@ references:
 base_image: &base_image
   hashicorp/terraform:light
 
+base_image_ans: &base_image_ans
+  ubuntu:14.04
+
+ansible_image: &ansible_image
+
 working_directory: &working_directory
   ~/example
+
+default_config_ans: &default_config_ans
+docker:
+  - image: *base_image_ans
+working_directory_ans: *working_directory
+environment:
+  BASH_ENV: /root/.bashrc
 
 default_config: &default_config
   docker:
@@ -150,6 +162,7 @@ jobs:
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
             pip install ansible
+            ansible-playbook main.yml
             pwd
             ls -l
       - *save_repo
