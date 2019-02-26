@@ -174,7 +174,7 @@ jobs:
       - run:
           command: |
             source $BASH_ENV
-            cd steps/$TERRAFORM_ENVIRONMENT
+            cd project/steps/$TERRAFORM_ENVIRONMENT
             ls -l
             ansible-playbook main.yml
       
