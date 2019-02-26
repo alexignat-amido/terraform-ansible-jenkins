@@ -1,7 +1,7 @@
 ---
 
 - name: Configuring Jenkins Master server
-  hosts: hosts
+  hosts: all
   gather_facts: no
   remote_user: ec2-user
   become: yes
