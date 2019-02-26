@@ -159,7 +159,7 @@ jobs:
       - *restore_repo
       - *set_repo_folder_configuration
       - run:
-          command: cd steps/$TERRAFORM_ENVIRONMENT 
+          command: ls -l 
       
 
 
