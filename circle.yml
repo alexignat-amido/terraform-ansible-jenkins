@@ -152,7 +152,7 @@ jobs:
             - terraform.plan
   
   build_configuration:
-    <<: *default_config
+    <<: *default_config_ans
     steps:
       - checkout
       - *set_repo_folder_configuration
@@ -162,13 +162,12 @@ jobs:
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
             pip install ansible
-            ansible-playbook main.yml
             pwd
             ls -l
       - *save_repo
   
   deploy_configuration:
-    <<: *default_config
+    <<: *default_config_ans
     steps:
       - *restore_repo
       - *set_repo_folder_configuration
