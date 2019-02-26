@@ -161,10 +161,9 @@ jobs:
           name: configuration ansible
           command: |
             source $BASH_ENV
-            cd steps/$TERRAFORM_ENVIRONMENT
+            cd steps/configuration
             ls -l
             pwd
-            pip install ansible
       - *save_repo
   
   apply_infrastructure:
