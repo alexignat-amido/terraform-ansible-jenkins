@@ -36,8 +36,3 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - jenkins-data:/var/jenkins_home
-
-- name: Copy JCasC yaml file
-  copy:
-    src: ../jenkins.yaml
-    dest: /var/lib/docker/volumes/jenkins-data/_data/jenkins.yaml
