@@ -164,23 +164,9 @@ jobs:
             cd steps/$TERRAFORM_ENVIRONMENT
             ls -l
             pwd
+            pip install ansible
       - *save_repo
   
-  deploy_configuration:
-    <<: *default_config_ans
-    steps:
-      - *restore_repo
-      - *set_repo_folder_configuration
-      - run:
-          command: |
-            source $BASH_ENV
-            ls -l
-            cd /steps/$TERRAFORM_ENVIRONMENT
-            ls -l
-            ansible-playbook main.yml
-      
-
-
   apply_infrastructure:
     <<: *apply_job
   apply-with-approval_infrastructure:
@@ -215,6 +201,3 @@ workflows:
       - build_configuration:
           requires:
             # - apply-with-approval_infrastructure
-      - deploy_configuration:
-          requires:
-            - build_configuration
