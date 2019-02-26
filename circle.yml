@@ -208,14 +208,9 @@ workflows:
           filters:
             branches:
               only: master
-      - approve_configuration:
-          type: approval
+      - build_configuration:
           requires:
             - apply-with-approval_infrastructure
-          filters:
-            branches:
-              only: master
-      - build_configuration
       - deploy_configuration:
           requires:
-            -approve
+            - build_configuration
