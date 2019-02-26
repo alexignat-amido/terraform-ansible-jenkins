@@ -149,6 +149,8 @@ jobs:
           command: |
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
+            pwd
+            ls -l
       - *save_repo
   
   deploy_configuration:
@@ -157,7 +159,7 @@ jobs:
       - *restore_repo
       - *set_repo_folder_configuration
       - run:
-          command: pwd 
+          command: cd steps/$TERRAFORM_ENVIRONMENT 
       
 
 
