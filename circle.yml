@@ -154,6 +154,7 @@ jobs:
   
   build_configuration:
     <<: *default_config_ans
+    ANSIBLE_HOST_KEY_CHECKING: no
     steps:
       - checkout
       - *set_repo_folder_configuration
@@ -172,8 +173,8 @@ jobs:
             # apt-add-repository ppa:ansible/ansible -y
             # apt-get update -y
             # apt-get install ansible -y
-            ansible --version 
-            ansible-playbook main.yml -i hosts.ini -u ec2-user
+            ansible --version
+            ANSIBLE_FORCE_COLOR=true ansible-playbook -i hosts.ini main.yml 
 
       - *save_repo
   
