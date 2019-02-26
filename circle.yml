@@ -65,7 +65,6 @@ apply_job: &apply_job
         command: |
           source $BASH_ENV
           cd steps/$TERRAFORM_ENVIRONMENT
-          terraform init
           terraform apply --auto-approve ../../terraform.plan
 
 jobs:
