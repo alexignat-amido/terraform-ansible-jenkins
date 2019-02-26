@@ -3,5 +3,5 @@ output "jenkins-url" {
 }
 
 output "ssh-jenkins" {
-  value =  "ssh -i '/jenkins-key.pem' ec2-user@${aws_instance.jenkins-master.public_dns}"
+  value =  "ssh -i 'jenkins-key.pem' ec2-user@${aws_instance.jenkins-master.public_dns}"
 }

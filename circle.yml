@@ -43,6 +43,13 @@ set_repo_folder_infrastructure: &set_repo_folder_infrastructure
     command: |
       cd && touch $BASH_ENV
       echo 'export TERRAFORM_ENVIRONMENT=infrastructure' >> $BASH_ENV
+
+set_repo_folder_configuration: &set_repo_folder_configuration
+  run:
+    name: set repo folder configuration
+    command: |
+      cd && touch $BASH_ENV
+      echo 'export TERRAFORM_ENVIRONMENT=configuration' >> $BASH_ENV
       
 terraform_init: &terraform_init
   run:
@@ -131,6 +138,16 @@ jobs:
           root: *working_directory
           paths:
             - terraform.plan
+  
+  deploy_configuration:
+    <<: *default_config
+    steps:
+      - *restore_repo
+      - *set_repo_folder_configuration
+      - run:
+          command: ansible-playbook main.yml 
+      
+
 
   apply_infrastructure:
     <<: *apply_job
@@ -180,3 +197,15 @@ workflows:
           filters:
             branches:
               only: master
+  ansible-playbook:
+    jobs:
+      - approve:
+          type: approval
+          requires:
+            - apply-with-approval_infrastructure
+          filters:
+            branches:
+              only: master
+      - deploy_configuration:
+          requires:
+            -approve
