@@ -22,6 +22,7 @@ resource "aws_instance" "jenkins-master" {
     provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/userdata.sh",
+      "whoami",
       "/tmp/userdata.sh args",
     ]
     connection {
