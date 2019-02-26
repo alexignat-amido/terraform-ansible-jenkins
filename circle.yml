@@ -208,9 +208,6 @@ workflows:
           filters:
             branches:
               only: master
-  ansible-playbook-run:
-    jobs:
-      - build_configuration
       - approve_configuration:
           type: approval
           requires:
@@ -218,6 +215,7 @@ workflows:
           filters:
             branches:
               only: master
+      - build_configuration
       - deploy_configuration:
           requires:
             -approve
