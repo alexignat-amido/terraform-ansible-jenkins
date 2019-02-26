@@ -159,7 +159,11 @@ jobs:
       - *restore_repo
       - *set_repo_folder_configuration
       - run:
-          command: ls -l 
+          command: |
+            source $BASH_ENV
+            cd steps/$TERRAFORM_ENVIRONMENT
+            ls -l
+            ansible-playbook main.yml
       
 
 
