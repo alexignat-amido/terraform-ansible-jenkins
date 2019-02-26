@@ -164,6 +164,7 @@ jobs:
             cd steps/configuration
             ls -l
             pwd
+            ansible-playbook main.yml
       - *save_repo
   
   apply_infrastructure:
