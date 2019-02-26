@@ -161,7 +161,6 @@ jobs:
           command: |
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
-            pip install ansible
             pwd
             ls -l
       - *save_repo
@@ -189,47 +188,31 @@ workflows:
   version: 2
   build_plan_approve_apply:
     jobs:
-      - build
-      - plan:
-          requires:
-            - build
-      # - approve:
-      #     type: approval
+      # - build
+      # - plan:
       #     requires:
       #       - build
+      # - apply-with-approval:
+      #     requires:
       #       - plan
       #     filters:
       #       branches:
       #         only: master
-      - apply-with-approval:
-          requires:
-            # - approve
-            - plan
-          filters:
-            branches:
-              only: master
-      - build_infrastructure:
-          requires:
-            - apply-with-approval
-      - plan_infrastructure:
-          requires:
-            - build_infrastructure
-      # - approve_infrastructure:
-      #     type: approval
+      # - build_infrastructure:
       #     requires:
-      #       - plan_infrastructure
+      #       - apply-with-approval
+      # - plan_infrastructure:
+      #     requires:
+      #       - build_infrastructure
+      # - apply-with-approval_infrastructure:
+      #     requires:
+      #         - plan_infrastructure
       #     filters:
       #       branches:
       #         only: master
-      - apply-with-approval_infrastructure:
-          requires:
-              - plan_infrastructure
-          filters:
-            branches:
-              only: master
       - build_configuration:
           requires:
-            - apply-with-approval_infrastructure
+            # - apply-with-approval_infrastructure
       - deploy_configuration:
           requires:
             - build_configuration
