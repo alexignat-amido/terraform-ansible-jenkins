@@ -164,11 +164,11 @@ jobs:
             cd steps/configuration
             ls -l
             pwd
-            apt-get update
-            sudo apt-get install software-properties-common
-            apt-add-repository ppa:ansible/ansible
-            apt-get update
-            apt-get install ansible
+            apt-get update -y
+            sudo apt-get install software-properties-common -y
+            apt-add-repository ppa:ansible/ansible -y
+            apt-get update -y
+            apt-get install ansible -y
 
       - *save_repo
   
