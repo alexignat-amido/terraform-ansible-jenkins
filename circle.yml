@@ -62,6 +62,7 @@ set_repo_folder_configuration: &set_repo_folder_configuration
     command: |
       cd && touch $BASH_ENV
       echo 'export TERRAFORM_ENVIRONMENT=configuration' >> $BASH_ENV
+      pwd
       
 terraform_init: &terraform_init
   run:
