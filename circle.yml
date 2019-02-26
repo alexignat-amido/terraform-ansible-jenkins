@@ -157,6 +157,9 @@ jobs:
     steps:
       - checkout
       - *set_repo_folder_configuration
+      - add_ssh_keys:
+          fingerprints:
+            - "cd:bb:74:9e:3a:66:89:b9:3a:9f:5e:09:df:c4:2a:15"
       - run:
           name: configuration ansible
           command: |
