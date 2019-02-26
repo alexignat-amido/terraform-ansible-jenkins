@@ -162,8 +162,8 @@ jobs:
           command: |
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
-            pwd
             ls -l
+            pwd
       - *save_repo
   
   deploy_configuration:
@@ -174,7 +174,8 @@ jobs:
       - run:
           command: |
             source $BASH_ENV
-            cd project/steps/$TERRAFORM_ENVIRONMENT
+            ls -l
+            cd /steps/$TERRAFORM_ENVIRONMENT
             ls -l
             ansible-playbook main.yml
       
