@@ -170,7 +170,7 @@ jobs:
             # apt-get update -y
             # apt-get install ansible -y
             ansible --version 
-            ansible-playbook main.yml 
+            ansible-playbook main.yml -i hosts.ini
 
       - *save_repo
   
