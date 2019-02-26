@@ -174,7 +174,7 @@ jobs:
             # apt-get update -y
             # apt-get install ansible -y
             ansible --version
-            ANSIBLE_FORCE_COLOR=true ansible-playbook -i hosts.ini main.yml 
+            ansible-playbook -i hosts.ini main.yml 
 
       - *save_repo
   
