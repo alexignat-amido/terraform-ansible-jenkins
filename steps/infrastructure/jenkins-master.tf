@@ -12,12 +12,23 @@ resource "aws_instance" "jenkins-master" {
     provisioner "file" {
     source      = "userdata.sh"
     destination = "/tmp/userdata.sh"
+    
+    connection {
+        type = "ssh"
+        user = "ec2-user"
+        # private_key = "${file("../../jenkins-key.pem")}"
+    }
     }
     provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/userdata.sh",
       "/tmp/userdata.sh args",
     ]
+    connection {
+        type = "ssh"
+        user = "ec2-user"
+        # private_key = "${file("../../jenkins-key.pem")}"
+    }
     }
 
     tags = {
