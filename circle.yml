@@ -139,6 +139,18 @@ jobs:
           paths:
             - terraform.plan
   
+  build_configuration:
+    <<: *default_config
+    steps:
+      - checkout
+      - *set_repo_folder_configuration
+      - run:
+          name: configuration ansible
+          command: |
+            source $BASH_ENV
+            cd steps/$TERRAFORM_ENVIRONMENT
+      - *save_repo
+  
   deploy_configuration:
     <<: *default_config
     steps:
@@ -192,14 +204,14 @@ workflows:
       #         only: master
       - apply-with-approval_infrastructure:
           requires:
-            # - approve_infrastructure
               - plan_infrastructure
           filters:
             branches:
               only: master
-  ansible-playbook:
+  ansible-playbook-run:
     jobs:
-      - approve:
+      - build_configuration
+      - approve_configuration:
           type: approval
           requires:
             - apply-with-approval_infrastructure
