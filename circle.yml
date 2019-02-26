@@ -101,6 +101,8 @@ jobs:
   apply:
     <<: *apply_job
   apply-with-approval:
+    steps:
+      - *terraform_init
     <<: *apply_job
 
   build_infrastructure:
