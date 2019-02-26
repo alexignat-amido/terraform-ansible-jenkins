@@ -6,7 +6,7 @@ base_image: &base_image
   hashicorp/terraform:light
 
 base_image_ans: &base_image_ans
-  ubuntu:14.04
+  ansible/ansible
 
 ansible_image: &ansible_image
 
@@ -164,11 +164,11 @@ jobs:
             cd steps/configuration
             ls -l
             pwd
-            apt-get update -y
-            sudo apt-get install software-properties-common -y
-            apt-add-repository ppa:ansible/ansible -y
-            apt-get update -y
-            apt-get install ansible -y
+            # apt-get update -y
+            # sudo apt-get install software-properties-common -y
+            # apt-add-repository ppa:ansible/ansible -y
+            # apt-get update -y
+            # apt-get install ansible -y
             ansible --version 
             ansible-playbook main.yml 
 
