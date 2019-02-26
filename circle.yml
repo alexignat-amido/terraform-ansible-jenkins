@@ -149,7 +149,7 @@ jobs:
           command: |
             source $BASH_ENV
             cd steps/$TERRAFORM_ENVIRONMENT
-            sudo pip install ansible
+            pip install ansible
             pwd
             ls -l
       - *save_repo
