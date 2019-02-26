@@ -9,11 +9,17 @@ resource "aws_instance" "jenkins-master" {
     associate_public_ip_address = true
     source_dest_check           = true
     depends_on = ["aws_internet_gateway.default"]
-     provisioner "remote-exec" {
+    provisioner "file" {
+    source      = "userdata.sh"
+    destination = "/tmp/userdata.sh"
+    }
+    provisioner "remote-exec" {
     inline = [
-      "sudo pip install ansible",
+      "chmod +x /tmp/userdata.sh",
+      "/tmp/userdata.sh args",
     ]
-  }
+    }
+
     tags = {
         Name = "jenkins-master"
     }
