@@ -6,7 +6,7 @@ base_image: &base_image
   hashicorp/terraform:light
 
 base_image_ans: &base_image_ans
-  ansible/ansible
+  vitalyu/az-ansible
 
 ansible_image: &ansible_image
 
