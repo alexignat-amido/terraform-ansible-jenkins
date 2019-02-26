@@ -1,6 +1,6 @@
-# data "template_file" "jenkins_userdata" {
-#   template = "${file("userdata.tpl")}"
-# }
+data "template_file" "jenkins_userdata" {
+  template = "${file("userdata.tpl")}"
+}
 resource "aws_instance" "jenkins-master" {
     ami = "${var.aws_linux_ami}"
     instance_type = "t2.micro"
@@ -11,7 +11,7 @@ resource "aws_instance" "jenkins-master" {
     associate_public_ip_address = true
     source_dest_check           = true
     depends_on = ["aws_internet_gateway.default"]
-    # user_data                   = "${data.template_file.jenkins_userdata.rendered}"
+    user_data                   = "${data.template_file.jenkins_userdata.rendered}"
     tags = {
         Name = "jenkins-master"
     }
