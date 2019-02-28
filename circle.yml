@@ -228,7 +228,7 @@ workflows:
               only: master
       - build_infrastructure:
           requires:
-            - apply-init
+            - apply_init
       - plan_infrastructure:
           requires:
             - build_infrastructure
