@@ -202,10 +202,11 @@ jobs:
             source $BASH_ENV
             cd steps/infrastructure
             terraform init
-            terraform output > "../configuration/hosts.ini"
+            terraform output > "../configuration/check.ini"
             cd ..
             cd configuration
-            cat hosts.ini
+            echo "[remote]" > hosts.ini
+            awk '/remote/{print $NF}' check.ini >> hosts.ini
             ansible --version
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i hosts.ini main.yml 
@@ -229,18 +230,18 @@ workflows:
       #     filters:
       #       branches:
       #         only: master
-      - build_infrastructure:
-          requires:
-            # - apply_init
-      - plan_infrastructure:
-          requires:
-            - build_infrastructure
-      - apply-with-approval_infrastructure:
-          requires:
-              - plan_infrastructure
-          filters:
-            branches:
-              only: master
+      # - build_infrastructure:
+      #     requires:
+      #       # - apply_init
+      # - plan_infrastructure:
+      #     requires:
+      #       - build_infrastructure
+      # - apply-with-approval_infrastructure:
+      #     requires:
+      #         - plan_infrastructure
+      #     filters:
+      #       branches:
+      #         only: master
       - build_configuration:
           requires:
-            - apply-with-approval_infrastructure
+            # - apply-with-approval_infrastructure
