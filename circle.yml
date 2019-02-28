@@ -107,6 +107,21 @@ apply_job: &apply_job
           cd steps/$TERRAFORM_ENVIRONMENT
           terraform apply --auto-approve ../../terraform.plan
 
+apply_job_infrastructure: &apply_job_infrastructure
+  <<: *default_config
+  steps:
+    - *restore_repo
+    - *set_repo_folder_infrastructure
+    - *terraform_init_infrastructure
+    - attach_workspace:
+        at: *working_directory
+    - run:
+        name: terraform apply
+        command: |
+          source $BASH_ENV
+          cd steps/infrastructure
+          terraform apply --auto-approve ../../terraform.plan
+
 jobs:
 
   build:
@@ -192,10 +207,10 @@ jobs:
 
       - *save_repo
   
-  apply_infrastructure:
+  apply_init:
     <<: *apply_job
   apply-with-approval_infrastructure:
-    <<: *apply_job
+    <<: *apply_job_infrastructure
 
 workflows:
   version: 2
@@ -205,7 +220,7 @@ workflows:
       # - plan:
       #     requires:
       #       - build
-      # - apply-with-approval:
+      # - apply_init:
       #     requires:
       #       - plan
       #     filters:
