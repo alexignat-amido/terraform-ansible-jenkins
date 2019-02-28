@@ -243,4 +243,4 @@ workflows:
               only: master
       - build_configuration:
           requires:
-      #       - apply-with-approval_infrastructure
+            - apply-with-approval_infrastructure
