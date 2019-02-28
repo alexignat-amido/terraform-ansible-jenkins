@@ -220,7 +220,7 @@ workflows:
       - plan:
           requires:
             - build
-      - apply_with-approval:
+      - apply_init:
           requires:
             - plan
           filters:
@@ -228,7 +228,7 @@ workflows:
               only: master
       - build_infrastructure:
           requires:
-            - apply-with-approval
+            - apply-init
       - plan_infrastructure:
           requires:
             - build_infrastructure
