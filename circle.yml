@@ -224,18 +224,18 @@ workflows:
       #     filters:
       #       branches:
       #         only: master
-      # - build_infrastructure:
-      #     requires:
-      #       - apply_init
-      # - plan_infrastructure:
-      #     requires:
-      #       - build_infrastructure
-      # - apply-with-approval_infrastructure:
-      #     requires:
-      #         - plan_infrastructure
-      #     filters:
-      #       branches:
-      #         only: master
-      - build_configuration:
+      - build_infrastructure:
           requires:
-            - apply-with-approval_infrastructure
+            - apply_init
+      - plan_infrastructure:
+          requires:
+            - build_infrastructure
+      - apply-with-approval_infrastructure:
+          requires:
+              - plan_infrastructure
+          filters:
+            branches:
+              only: master
+      # - build_configuration:
+      #     requires:
+      #       - apply-with-approval_infrastructure
