@@ -204,7 +204,7 @@ jobs:
             terraform init
             terraform output > "../configuration/hosts.ini"
             cd ..
-            cd stepts/configuration
+            cd steps/configuration
             ansible --version
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i hosts.ini main.yml 
