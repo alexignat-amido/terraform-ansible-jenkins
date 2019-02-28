@@ -207,8 +207,6 @@ jobs:
 
       - *save_repo
   
-  # apply_init:
-  #   <<: *apply_job
   apply-with-approval_infrastructure:
     <<: *apply_job_infrastructure
 
@@ -238,6 +236,6 @@ workflows:
           filters:
             branches:
               only: master
-      - build_configuration:
-          requires:
-            - apply-with-approval_infrastructure
+      # - build_configuration:
+      #     requires:
+      #       - apply-with-approval_infrastructure
