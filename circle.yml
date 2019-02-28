@@ -214,28 +214,28 @@ workflows:
   version: 2
   build_plan_approve_apply:
     jobs:
-      # - build
-      # - plan:
-      #     requires:
-      #       - build
-      # - apply_init:
-      #     requires:
-      #       - plan
-      #     filters:
-      #       branches:
-      #         only: master
-      # - build_infrastructure:
-      #     requires:
-      #       - apply_init
-      # - plan_infrastructure:
-      #     requires:
-      #       - build_infrastructure
-      # - apply-with-approval_infrastructure:
-      #     requires:
-      #         - plan_infrastructure
-      #     filters:
-      #       branches:
-      #         only: master
-      - build_configuration:
+      - build
+      - plan:
           requires:
+            - build
+      - apply_init:
+          requires:
+            - plan
+          filters:
+            branches:
+              only: master
+      - build_infrastructure:
+          requires:
+            - apply_init
+      - plan_infrastructure:
+          requires:
+            - build_infrastructure
+      - apply-with-approval_infrastructure:
+          requires:
+              - plan_infrastructure
+          filters:
+            branches:
+              only: master
+      # - build_configuration:
+      #     requires:
       #       - apply-with-approval_infrastructure
