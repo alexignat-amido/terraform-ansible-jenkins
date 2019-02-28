@@ -26,3 +26,10 @@ variable "availability_zone" {
     default = "eu-west-1a"
 }
 
+variable "aws_dynamodb_table" {
+  default = "ima-ddt-datasource"
+}
+
+variable "accountId" {
+    default = "499815288658"
+}
