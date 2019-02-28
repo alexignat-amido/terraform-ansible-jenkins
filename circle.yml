@@ -17,17 +17,17 @@ working_directory: &working_directory
 
 # Default configuration for both environments
 
-default_config_ans: &default_config_ans
-  docker:
-    - image: *base_image_ans
-  working_directory_ans: *working_directory
-  environment:
-    BASH_ENV: /root/.bashrc
-
 default_config: &default_config
   docker:
     - image: *base_image
   working_directory: *working_directory
+  environment:
+    BASH_ENV: /root/.bashrc
+
+default_config_ans: &default_config_ans
+  docker:
+    - image: *base_image_ans
+  working_directory_ans: *working_directory
   environment:
     BASH_ENV: /root/.bashrc
 
@@ -70,7 +70,7 @@ set_repo_folder_configuration: &set_repo_folder_configuration
       echo 'export TERRAFORM_ENVIRONMENT=configuration' >> $BASH_ENV
       pwd
 
-# Terraform initialization cmd module
+# Terraform initialization for init and infrastructure
       
 terraform_init: &terraform_init
   run:
@@ -90,7 +90,7 @@ terraform_init_infrastructure: &terraform_init_infrastructure
       ls -l
       terraform init
 
-# Apply terraform from specific plan module
+# Apply terraform from specific folder module
 
 apply_job: &apply_job
   <<: *default_config
@@ -216,19 +216,19 @@ workflows:
   version: 2
   build_plan_approve_apply:
     jobs:
-      # - build
-      # - plan:
-      #     requires:
-      #       - build
-      # - apply_init:
-      #     requires:
-      #       - plan
-      #     filters:
-      #       branches:
-      #         only: master
+      - build
+      - plan:
+          requires:
+            - build
+      - apply_with-approval:
+          requires:
+            - plan
+          filters:
+            branches:
+              only: master
       - build_infrastructure:
           requires:
-            # - apply-with-approval
+            - apply-with-approval
       - plan_infrastructure:
           requires:
             - build_infrastructure
