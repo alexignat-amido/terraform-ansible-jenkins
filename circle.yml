@@ -81,6 +81,15 @@ terraform_init: &terraform_init
       ls -l
       terraform init
 
+terraform_init_infrastructure: &terraform_init_infrastructure
+  run:
+    name: terraform init infrastructure
+    command: |
+      source $BASH_ENV
+      cd steps/infrastructure
+      ls -l
+      terraform init
+
 # Apply terraform from specific plan module
 
 apply_job: &apply_job
@@ -151,7 +160,7 @@ jobs:
     steps:
       - *restore_repo
       - *set_repo_folder_infrastructure
-      - *terraform_init
+      - *terraform_init_infrastructure
       - run:
           name: terraform plan
           command: |
