@@ -4,7 +4,7 @@ data "aws_iam_group" "ec2admin" {
 }
 
 data "aws_region" "current" {
-  default = "eu-west-1"
+  name = "eu-west-1"
 }
 
 ##################################################################################
