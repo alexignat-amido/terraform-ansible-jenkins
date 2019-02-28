@@ -1,4 +1,4 @@
-output "[hosts]" {
+output "[remote]" {
   value = "${aws_instance.jenkins-master.public_ip}"
 }
 
